@@ -1,0 +1,8 @@
+{
+  // "react-app"를 추가해주어야 react 문법에 맞게 적용됩니다.
+  "plugins": ["react-app", "prettier"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
