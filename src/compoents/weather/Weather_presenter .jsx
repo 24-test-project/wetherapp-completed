@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 // *은 현재 import된 파일에서 export된 모든 항목을 객체형태로 가져옵니다.
 // as를 통해 이름을 styled로 바꾸어줍니다.
 // styled.정의한 styledCompoent 로 접근하면됩니다.
-import * as styled from "./WetherStyles"; 
+import * as styled from "./WetherStyles";
+import { UserContext } from "../../context/UserContext";
 
 export default function WeatherUI({
   weatherInfo,
   isSunset,
   handleReload,
   isLoading,
-  logout,
-  loginUser,
 }) {
+  const { loginUser } = useContext(UserContext);
   return (
     <>
       <styled.MainTitle className="a11y-hidden">날씨 페이지</styled.MainTitle>
@@ -50,7 +50,6 @@ export default function WeatherUI({
           )}
         </styled.WeatherWrapper>
       ) : null}
-      <styled.LogoutBtn onClick={logout}>로그아웃</styled.LogoutBtn>
     </>
   );
 }

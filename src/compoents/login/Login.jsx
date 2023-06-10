@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "../../context/UserContext";
 
 const LoginWrapper = styled.section`
   display: flex;
@@ -72,10 +73,11 @@ const SubmitBtn = styled.button`
   }
 `;
 
-export default function Login({ userDB, setLoginUser }) {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { userDB, setLoginUser } = useContext(UserContext);
   function onChangeInput(e, setTarget) {
     setTarget(e.target.value.trim());
   }

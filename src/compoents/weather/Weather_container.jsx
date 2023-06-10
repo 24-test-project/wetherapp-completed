@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import WeatherUI from "./Weather_presenter ";
+import { UserContext } from "../../context/UserContext";
 
 // 코드 길이가 너무 길어서져서 파일을 나누었습니다.
 // weather 함수들이 들어있는 컴포넌트와 weather UI컴포넌트로 나누었습니다.
-// 이런 패턴을 container presenter 패턴라고 합니다. 
+// 이런 패턴을 container presenter 패턴라고 합니다.
 // 이렇게 하면 유지 보수가 좋아진다는 장점이 있지만 UI에 사용되는 props를 추가로 전달해주어야해서 props Drilling 문제가 있을 수 있습니다.
 // styled compoents도 따로 js파일로 나누어서 import 해주었습니다.
 // container presenter 패턴의 자세한 설명은 아래 링크를 참고해주세요.
 // https://velog.io/@crab4862/Container-Presenter-%ED%8C%A8%ED%84%B4
-export default function Weather({ loginUser, setLoginUser }) {
+export default function Weather() {
   // 날씨 정보 상태
   const [weatherInfo, setWeatherInfo] = useState(null);
   // 현재 일몰인지 아닌지 파악하는 상태
   const [isSunset, setIsSunset] = useState(false);
   // 로딩 상태
   const [isLoading, setIsLoading] = useState(false);
-
+  
   function askForCoords() {
     // 위치를 받아오는 자바스크립트 API 자세한 설명은 아래 링크를 참고해주세요
     // https://computer-science-student.tistory.com/760
@@ -49,14 +50,14 @@ export default function Weather({ loginUser, setLoginUser }) {
   async function saveCoords(coordsObj) {
     localStorage.setItem("coords", JSON.stringify(coordsObj));
   }
-  
+
   // 현재 시간을 정의한 날짜 형식으로 리턴하는 함수
   function formatTime() {
     const now = new Date();
     let hours = now.getHours();
-    const minutes = '0' + now.getMinutes();
+    const minutes = "0" + now.getMinutes();
     let ampm = now.getHours() < 12 ? "오전" : "오후";
-    hours = "0" + now.getHours() % 12 || 12;
+    hours = "0" + (now.getHours() % 12) || 12;
     return `${ampm} ${hours.slice(-2)}:${minutes.slice(-2)}`;
   }
 
@@ -79,7 +80,7 @@ export default function Weather({ loginUser, setLoginUser }) {
       // 새로고침 시간를 formatTime 함수를 통해 현재 시간을 정의된 시간 형식에 맞게 변환해줍니다.
       const reloadTime = formatTime();
 
-        // 날씨데이터에서 날씨 설명을 가져옵니다.
+      // 날씨데이터에서 날씨 설명을 가져옵니다.
       let weatherText = json.weather[0].description;
 
       // 날씨 텍스트를 한글로 변환
@@ -142,14 +143,7 @@ export default function Weather({ loginUser, setLoginUser }) {
     };
     fetchData();
   }
-  function logout() {
-    if (window.confirm("정말 로그아웃 하겠습니까?")) {
-      // localstorag에서 유저정보 삭제
-      localStorage.removeItem("loginUser");
-      // 유저 상태 초기화
-      setLoginUser("");
-    }
-  }
+
 
   useEffect(() => {
     // 비동기 처리 async 사용을 위해 함수를 정의
@@ -166,9 +160,10 @@ export default function Weather({ loginUser, setLoginUser }) {
         // isSunset 상태를 true로
         setIsSunset(
           new Date().getTime() >= weatherData.sunset ||
-          new Date().getTime() < weatherData.sunrise,
+            new Date().getTime() < weatherData.sunrise,
         );
-      } else { // 로컬스토리지에 좌표정보가 없을 경우 좌표를 불러옵니다.
+      } else {
+        // 로컬스토리지에 좌표정보가 없을 경우 좌표를 불러옵니다.
         await askForCoords();
       }
     };
@@ -180,8 +175,6 @@ export default function Weather({ loginUser, setLoginUser }) {
       isSunset={isSunset}
       handleReload={handleReload}
       isLoading={isLoading}
-      logout={logout}
-      loginUser={loginUser}
     />
   );
 }

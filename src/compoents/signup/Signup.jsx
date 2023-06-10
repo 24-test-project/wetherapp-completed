@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "../../context/UserContext";
 
 const Wrapper = styled.div`
   width: calc(100% - 60px);
@@ -56,10 +57,12 @@ const ErrMsg = styled.span`
   color: crimson;
   margin: -15px 0 15px 0;
 `;
-export default function Signup({ userDB, setUserDB }) {
+export default function Signup() {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { userDB, setUserDB } = useContext(UserContext);
 
   // 유효성 검사를 관리할 상태
   // errMessage : 에러가 발생할때 출력할 메세지

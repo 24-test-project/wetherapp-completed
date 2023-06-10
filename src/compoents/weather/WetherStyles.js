@@ -3,15 +3,7 @@ import styled from "styled-components";
 // 코드가 길어져서 따로 분리해서 styles 컴포넌트를 export해서 사용합니다.
 
 export const MainTitle = styled.h2``;
-export const LogoutBtn = styled.button`
-  background: url("/img/logout.png") no-repeat left / 20px;
-  border: none;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding-left: 21px;
-  cursor: pointer;
-`;
+
 export const UserName = styled.p`
   font-size: 20px;
   text-align: center;
